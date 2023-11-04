@@ -13,7 +13,6 @@ blp = Blueprint("Games", "games", description="Operations on games")
 
 @blp.route("/games/<int:game_id>")
 class Game(MethodView):
-    @jwt_required()
     @blp.response(200, GameSchema)
     def get(self, game_id):
         game = GameModel.query.get_or_404(game_id)
@@ -29,7 +28,6 @@ class Game(MethodView):
 
 @blp.route("/game")
 class GameList(MethodView):
-    @jwt_required()
     @blp.response(200, GameSchema(many=True))
     def get(self):
         return GameModel.query.all()
@@ -46,3 +44,4 @@ class GameList(MethodView):
             abort(500, message="An error occurred while creating the game.")
 
         return game
+    

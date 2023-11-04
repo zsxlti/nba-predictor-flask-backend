@@ -8,3 +8,6 @@ psycopg2
 sqlalchemy
 passlib
 flask-migrate
+pandas
+scikit-learn
+joblib

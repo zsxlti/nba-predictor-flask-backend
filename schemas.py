@@ -85,3 +85,7 @@ class GameSchema(Schema):
 class SeasonSchema(Schema):
     id = fields.Int(dump_only=True)
     season_number = fields.Int()
+
+class PredictionSchema(Schema):
+    team_id_home = fields.Int();
+    team_id_away = fields.Int();
