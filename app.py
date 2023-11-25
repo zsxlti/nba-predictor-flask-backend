@@ -14,15 +14,15 @@ from resources.player import blp as PlayerBlueprint
 from resources.team import blp as TeamBlueprint
 from resources.user import blp as UserBlueprint
 from resources.game import blp as GameBlueprint
-from resources.season import blp as SeasonBlueprint
 from resources.predict import blp as PredictionBlueprint
+from resources.stat import blp as StatBlueprint
 
 
 def create_app(db_url=None):
     app = Flask(__name__)
     load_dotenv()
 
-    app.config["API_TITLE"] = "Stores REST API"
+    app.config["API_TITLE"] = "NBA REST API"
     app.config["API_VERSION"] = "v1"
     app.config["OPENAPI_VERSION"] = "3.0.3"
     app.config["OPENAPI_URL_PREFIX"] = "/"
@@ -92,7 +92,7 @@ def create_app(db_url=None):
     api.register_blueprint(TeamBlueprint)
     api.register_blueprint(UserBlueprint)
     api.register_blueprint(GameBlueprint)
-    api.register_blueprint(SeasonBlueprint)
     api.register_blueprint(PredictionBlueprint)
+    api.register_blueprint(StatBlueprint)
 
     return app

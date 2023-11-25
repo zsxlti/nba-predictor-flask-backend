@@ -10,7 +10,7 @@ from schemas import PlayerSchema, PlayerUpdateSchema
 blp = Blueprint("Players", "players", description="Operations on players")
 
 
-@blp.route("/player/<int:player_id>")
+@blp.route("/api/player/<int:player_id>")
 class Player(MethodView):
     @jwt_required()
     @blp.response(200, PlayerSchema)
@@ -48,7 +48,7 @@ class Player(MethodView):
         return player
 
 
-@blp.route("/player")
+@blp.route("/api/player")
 class PlayerList(MethodView):
     @jwt_required()
     @blp.response(200, PlayerSchema(many=True))

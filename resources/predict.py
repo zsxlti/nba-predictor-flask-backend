@@ -14,7 +14,7 @@ from models import GameModel
 
 blp = Blueprint("Predictions", "predictions", description="Operations on predictions")
 
-@blp.route("/predict")
+@blp.route("/api/predict")
 class PredictionOutcome(MethodView):
     @blp.arguments(PredictionSchema)
     def post(self, prediction_data):

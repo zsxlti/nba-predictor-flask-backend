@@ -82,10 +82,6 @@ class GameSchema(Schema):
     pts_away = fields.Decimal()
     home_win = fields.Bool()
 
-class SeasonSchema(Schema):
-    id = fields.Int(dump_only=True)
-    season_number = fields.Int()
-
 class PredictionSchema(Schema):
     team_id_home = fields.Int();
     team_id_away = fields.Int();

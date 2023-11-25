@@ -11,7 +11,7 @@ from schemas import TeamSchema
 blp = Blueprint("Teams", "teams", description="Operations on teams")
 
 
-@blp.route("/team/<int:team_id>")
+@blp.route("/api/team/<int:team_id>")
 class Team(MethodView):
     @jwt_required()
     @blp.response(200, TeamSchema)
@@ -27,12 +27,13 @@ class Team(MethodView):
         return {"message": "Team deleted"}, 200
 
 
-@blp.route("/team")
+@blp.route("/api/team")
 class TeamList(MethodView):
-    @jwt_required()
-    @blp.response(200, TeamSchema(many=True))
+    @blp.response(200)
     def get(self):
-        return TeamModel.query.all()
+        teams = TeamModel.query.all()
+        team_names = [team.name for team in teams]  # Csapatnevek listája
+        return team_names
 
     @jwt_required()
     @blp.arguments(TeamSchema)

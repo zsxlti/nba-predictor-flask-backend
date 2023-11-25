@@ -11,3 +11,4 @@ flask-migrate
 pandas
 scikit-learn
 joblib
+password-validator

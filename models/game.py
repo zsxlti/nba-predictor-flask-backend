@@ -5,7 +5,7 @@ class GameModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     team_id_home = db.Column(db.Integer)
-    season_id = db.Column(db.Integer, db.ForeignKey("seasons.id"))
+    season_id = db.Column(db.Integer)
     date = db.Column(db.Date)
     fgm_home = db.Column(db.Double)
     fga_home = db.Column(db.Double)

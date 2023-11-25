@@ -1,3 +1,5 @@
+import re
+from flask import request
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from passlib.hash import pbkdf2_sha256
@@ -11,21 +13,28 @@ from schemas import UserSchema
 blp = Blueprint("Users", "users", description="Operations on users")
 
 
-@blp.route("/register")
+@blp.route("/api/register")
 class UserRegister(MethodView):
-    @blp.arguments(UserSchema)
-    def post(self, user_data):
+      def post(self):
+            user_data = request.get_json()
 
+            # Jelszó ellenőrzése reguláris kifejezéssel
+            password_pattern = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$')
+
+            if not password_pattern.match(user_data["password"]):
+                  return {"error": "Invalid password! Password must be at least 8 characters long and include uppercase, lowercase, and a number."}, 400
+
+            # Ha az ellenőrzés sikeres, felhasználó létrehozása
             user = UserModel(
-                username=user_data["username"],
-                password=pbkdf2_sha256.hash(user_data["password"])
+                  username=user_data["username"],
+                  password=pbkdf2_sha256.hash(user_data["password"])
             )
             db.session.add(user)
             db.session.commit()
 
             return {"message": "User created successfully."}, 201
         
-@blp.route("/login")
+@blp.route("/api/login")
 class UserLogin(MethodView):
       @blp.arguments(UserSchema)
       def post(self, user_data):
@@ -40,7 +49,7 @@ class UserLogin(MethodView):
             
             abort(401, message="Invalid credentials.")
 
-@blp.route("/refresh")
+@blp.route("/api/refresh")
 class TokenRefresh(MethodView):
       @jwt_required(refresh=True)
       def post(self):
@@ -50,7 +59,7 @@ class TokenRefresh(MethodView):
             BLOCKLIST.add(jti)
             return {"access_token": new_token}
 
-@blp.route("/logout")
+@blp.route("/api/logout")
 class UserLogout(MethodView):
     @jwt_required()
     def post(self):
@@ -58,7 +67,7 @@ class UserLogout(MethodView):
           BLOCKLIST.add(jti)
           return {"message": "Successfully logged out."}
 
-@blp.route("/user/<int:user_id>")
+@blp.route("/api/user/<int:user_id>")
 class User(MethodView):
     @blp.response(200, UserSchema)
     def get(self, user_id):
@@ -71,9 +80,8 @@ class User(MethodView):
             db.session.commit()
             return {"message": "User deleted."}, 200
 
-@blp.route("/users")
+@blp.route("/api/users")
 class UserList(MethodView):
-    @jwt_required()
     @blp.response(200, UserSchema(many=True))
     def get(self):
         return UserModel.query.all()
