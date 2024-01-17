@@ -14,4 +14,3 @@ class PlayerModel(db.Model):
 
     from_year = db.Column(db.Integer)
     to_year = db.Column(db.Integer)
-    

@@ -18,13 +18,11 @@ class UserRegister(MethodView):
       def post(self):
             user_data = request.get_json()
 
-            # Jelszó ellenőrzése reguláris kifejezéssel
             password_pattern = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$')
 
             if not password_pattern.match(user_data["password"]):
                   return {"error": "Invalid password! Password must be at least 8 characters long and include uppercase, lowercase, and a number."}, 400
 
-            # Ha az ellenőrzés sikeres, felhasználó létrehozása
             user = UserModel(
                   username=user_data["username"],
                   password=pbkdf2_sha256.hash(user_data["password"])
