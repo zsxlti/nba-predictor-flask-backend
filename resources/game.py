@@ -249,6 +249,7 @@ class GetGamesComparisonStats(MethodView):
         # Az eredmények átalakítása JSON formátumba
         result = {
             "team_1": {
+                "team_id": team_id_1,
                 "total_pts": round(total_pts_team_1),
                 "total_ast": round(total_ast_team_1),
                 "total_reb": round(total_reb_team_1),
@@ -271,6 +272,7 @@ class GetGamesComparisonStats(MethodView):
                 # További aggregált adatok...
             },
             "team_2": {
+                "team_id": team_id_2,
                 "total_pts": round(total_pts_team_2),
                 "total_ast": round(total_ast_team_2),
                 "total_reb": round(total_reb_team_2),
