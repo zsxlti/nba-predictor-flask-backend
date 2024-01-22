@@ -14,7 +14,6 @@ from resources.player import blp as PlayerBlueprint
 from resources.team import blp as TeamBlueprint
 from resources.user import blp as UserBlueprint
 from resources.game import blp as GameBlueprint
-from resources.predict import blp as PredictionBlueprint
 from resources.stat import blp as StatBlueprint
 
 
@@ -92,7 +91,6 @@ def create_app(db_url=None):
     api.register_blueprint(TeamBlueprint)
     api.register_blueprint(UserBlueprint)
     api.register_blueprint(GameBlueprint)
-    api.register_blueprint(PredictionBlueprint)
     api.register_blueprint(StatBlueprint)
 
     return app
